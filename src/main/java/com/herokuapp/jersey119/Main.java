@@ -16,24 +16,12 @@ public class Main {
 		if (webPort == null || webPort.isEmpty()){
 			webPort = "8080";
 		}
-		System.out.println("webPort = " + webPort);
 		
 		final Server server = new Server(Integer.valueOf(webPort));
 		final WebAppContext root = new WebAppContext();
 		
 		root.setContextPath("/");
-		
-		// Parent loader priority is a class loader setting that Jetty accepts.
-		// By default Jetty will behave like most web containers in that it will
-		// allow your application to replace non-server libraries that are part of the
-		// container. Setting parent loader priority to true changes this behavior.
-		// Read more here: http://wiki.eclipse.org/Jetty/Reference/Jetty_Classloading
-		root.setParentLoaderPriority(true);
-		
-		final String webappDirLocation ="src/main/webapp/";
-		root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
-		root.setResourceBase(webappDirLocation);
-
+		root.setWar("target/jersey119.war");
 		server.setHandler(root);
 		
 		server.start();
