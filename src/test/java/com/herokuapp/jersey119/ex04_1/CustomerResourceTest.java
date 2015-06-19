@@ -10,11 +10,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CustomerResourceTest {	
