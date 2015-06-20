@@ -1,56 +1,68 @@
 package com.herokuapp.jersey119.ex04_1;
 
-import com.herokuapp.jersey119.domain.Customer;
-
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-
 import java.net.URI;
+import java.util.List;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
+@Path("/customers")
 public class CustomerResourceService extends AbstractCustomerUtil implements CustomerResource {
 
-	private Map<Integer,Customer> customerDB = new ConcurrentHashMap<Integer,Customer>();
-	private AtomicInteger idCounter = new AtomicInteger();
+	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("mydata");
 	
-	public Response createCustomer(InputStream is){
-		Customer customer = readCustomer(is);
-		customer.setId(idCounter.incrementAndGet());
-		customerDB.put(customer.getId(), customer);
-		System.out.println("Created customer " + customer.getId());
+	public Response createCustomer(String s) {
+		System.out.println("createCustomer.s=" + s);
+		
+		EntityManager manager = factory.createEntityManager();
+		Query q = manager.createQuery("FROM CustomerXML");
+		int size = q.getResultList().size();
+		EntityTransaction transaction = manager.getTransaction();
+		transaction.begin();
+		int id = (size==0 ? 1:size+1);
+		manager.persist(new CustomerXML(id,s));
+		transaction.commit();
+		manager.close();
+		
 		return Response.created(
-				URI.create("/customers/"+ customer.getId())
+				URI.create("/customers/"+ id)
 						).build();
 	}
 	
 	public void patchCustomer(@PathParam("id") int id, InputStream is){
 	}
 	
-	public StreamingOutput getCustomer(@PathParam("id") int id){
-		final Customer customer = customerDB.get(id);
-		if(customer==null){
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_XML)
+	public String getCustomer(@PathParam("id") int id){
+		System.out.println("getCustomer start");
+		
+		EntityManager manager = factory.createEntityManager();
+		Query q = manager.createQuery("FROM CustomerXML where id=:id").setParameter("id", id);		
+		List<CustomerXML> list = (List<CustomerXML>)q.getResultList();
+		if(list.size()==0){
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
-		return new StreamingOutput(){
-			public void write(OutputStream outputStream)
-							throws IOException, WebApplicationException{
-				outputCustomer(outputStream,customer);
-			}
-		};
+		CustomerXML cx = (CustomerXML)list.get(0);
+		return cx.getValue();
 	}
 
 	public void updateCustomer(
 			@PathParam("id") int id,
 			InputStream is){
+/*
 		Customer update = readCustomer(is);
 		Customer current = customerDB.get(id);
 		if(current == null){
@@ -63,5 +75,6 @@ public class CustomerResourceService extends AbstractCustomerUtil implements Cus
 		current.setState(update.getState());
 		current.setZip(update.getZip());
 		current.setCountry(update.getCountry());
+*/
 	}
 }

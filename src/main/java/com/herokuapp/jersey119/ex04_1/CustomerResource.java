@@ -1,6 +1,7 @@
 package com.herokuapp.jersey119.ex04_1;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,23 +16,24 @@ import javax.ws.rs.core.StreamingOutput;
 
 import com.herokuapp.jersey119.annotations.PATCH;
 
-@Path("/customers")
 public interface CustomerResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response createCustomer(InputStream is);
+	//public Response createCustomer(InputStream is);
+	public Response createCustomer(String s);
 	
 	@PATCH
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public void patchCustomer(@PathParam("id") int id, InputStream is);
 
-	
+	/*
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_XML)
 	public StreamingOutput getCustomer(@PathParam("id") int id);
+	*/
 	
 	@PUT
 	@Path("{id}")

@@ -1,5 +1,9 @@
 package com.herokuapp.jersey119;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -10,7 +14,18 @@ import org.eclipse.jetty.webapp.WebAppContext;
 public class Main2 {
 
     public static void main(String[] args) throws Exception{
-        // The port that we should run on can be set into an environment variable
+
+    	//JDBC ドライバロード
+    	Class.forName("org.hsqldb.jdbcDriver");
+    	// データベースに接続
+        Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:test", "sa", "");
+        // テーブル作成
+        Statement st = connection.createStatement();
+        st.executeUpdate("CREATE TABLE TEST_TABLE (id INTEGER, value VARCHAR(1024))");
+        st.close();
+        connection.close();
+        
+    	// The port that we should run on can be set into an environment variable
         // Look for that variable and default to 8080 if it isn't there.
         String webPort = System.getenv("PORT");
         if (webPort == null || webPort.isEmpty()) {
