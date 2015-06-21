@@ -16,11 +16,10 @@ import javax.ws.rs.core.Response;
 
 import com.herokuapp.jersey119.annotations.PATCH;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
-@Path("/customers")
+@Path("/ex04_1/customers")
 public class CustomerResourceService implements CustomerResource {
 
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("mydata");

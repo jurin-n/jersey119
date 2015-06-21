@@ -22,7 +22,7 @@ public class CustomerResourceTest {
 	public void testPostMethod() throws UnsupportedEncodingException {
 		System.out.println("*** testPostMethod start ***");
 		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpPost method = new HttpPost("http://localhost:8080/customers");
+		HttpPost method = new HttpPost("http://localhost:8080/ex04_1/customers");
 		method.setHeader("Content-Type", "application/xml");
 	    String newCustomer = "<customer>"
 	              + "<first-name>Bill</first-name>"
@@ -48,7 +48,7 @@ public class CustomerResourceTest {
 	public void testGetMethod() {
 		System.out.println("*** testGetMethod start ***");
 		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpGet method = new HttpGet("http://localhost:8080/customers/1");
+		HttpGet method = new HttpGet("http://localhost:8080/ex04_1/customers/1");
 		try {
 			HttpResponse response = httpClient.execute(method);
 			assertThat(response.getStatusLine().getStatusCode(),is(200));
@@ -65,7 +65,7 @@ public class CustomerResourceTest {
 	public void testPatchMethod() throws UnsupportedEncodingException {
 		System.out.println("*** testPatchMethod start ***");
 		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpPatch method = new HttpPatch("http://localhost:8080/customers/1");
+		HttpPatch method = new HttpPatch("http://localhost:8080/ex04_1/customers/1");
 		method.setHeader("Content-Type", "application/xml");
 	    String newCustomer = "<customer>"
 	              + "<first-name>test</first-name>"
