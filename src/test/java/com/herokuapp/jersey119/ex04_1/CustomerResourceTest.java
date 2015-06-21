@@ -44,22 +44,6 @@ public class CustomerResourceTest {
 		System.out.println("*** testPostMethod end ***");
 	}
 	
-	//@Test
-	@Ignore
-	public void testPatchMethod() {
-		System.out.println("*** testPatchMethod start ***");
-		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpPatch method = new HttpPatch("http://localhost:8080/customers/1");
-		try {
-			HttpResponse response = httpClient.execute(method);
-			assertThat(response.getStatusLine().getStatusCode(),is(404));
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail();
-		}
-		System.out.println("*** testPatchMethod end ***");
-	}
-	
 	@Test
 	public void testGetMethod() {
 		System.out.println("*** testGetMethod start ***");
@@ -73,5 +57,33 @@ public class CustomerResourceTest {
 			fail();
 		}
 		System.out.println("*** testGetMethod end ***");
+	}
+	
+	
+	@Test
+	//@Ignore
+	public void testPatchMethod() throws UnsupportedEncodingException {
+		System.out.println("*** testPatchMethod start ***");
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		HttpPatch method = new HttpPatch("http://localhost:8080/customers/1");
+		method.setHeader("Content-Type", "application/xml");
+	    String newCustomer = "<customer>"
+	              + "<first-name>test</first-name>"
+	              + "<last-name>taro</last-name>"
+	              + "<street>123 street</street>"
+	              + "<city>Tokyo</city>"
+	              + "<state></state>"
+	              + "<zip>12345</zip>"
+	              + "<country>JP</country>"
+	              + "</customer>";
+		method.setEntity(new StringEntity(newCustomer));
+		try {
+			HttpResponse response = httpClient.execute(method);
+			assertThat(response.getStatusLine().getStatusCode(),is(204));
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
+		System.out.println("*** testPatchMethod end ***");
 	}
 }

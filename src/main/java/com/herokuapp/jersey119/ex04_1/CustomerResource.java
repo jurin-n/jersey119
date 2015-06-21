@@ -23,22 +23,27 @@ public interface CustomerResource {
 	//public Response createCustomer(InputStream is);
 	public Response createCustomer(String s);
 	
-	@PATCH
-	@Path("{id}")
-	@Consumes(MediaType.APPLICATION_XML)
-	public void patchCustomer(@PathParam("id") int id, InputStream is);
-
 	/*
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_XML)
-	public StreamingOutput getCustomer(@PathParam("id") int id);
+	public String getCustomer(@PathParam("id") int id);
+	*/
+	
+	/*
+	@PATCH
+	@Consumes(MediaType.APPLICATION_XML)
+	//public void patchCustomer(@PathParam("id") int id, InputStream is);
+	public void patchCustomer(@PathParam("id") int id, String s);
+	*/
+	
+	/*
+	public String getCustomer(@PathParam("id") int id);
 	*/
 	
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_XML)
-	public void updateCustomer(
-			@PathParam("id") int id,
-			InputStream is);
+	//public void updateCustomer(@PathParam("id") int id,InputStream is);
+	public void updateCustomer(@PathParam("id") int id,String s);
 }
