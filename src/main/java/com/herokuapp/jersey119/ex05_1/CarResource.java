@@ -9,7 +9,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.MatrixParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
-
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/ex05_1/cars")
 public class CarResource {
@@ -58,5 +59,17 @@ public class CarResource {
 			res = res + " " + seg.getPath() + " " +  seg.getMatrixParameters().getFirst("color");
 		}
 		return res;
+	}
+	
+	@GET
+	@Path("/uriinfo/{make}/{model}/{year}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getFromUriInfo(@Context UriInfo info){
+		String make = info.getPathParameters().getFirst("make");
+		String year = info.getPathParameters().getFirst("year");
+		PathSegment model = info.getPathSegments().get(4);
+		String color = model.getMatrixParameters().getFirst("color");
+		
+		return "A " + color + " " + year + " " + make + " " + model.getPath();
 	}
 }
