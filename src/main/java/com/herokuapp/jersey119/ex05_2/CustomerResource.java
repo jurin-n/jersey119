@@ -7,6 +7,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 @Path("/ex05_2/customer")
@@ -14,7 +15,7 @@ public class CustomerResource {
 	@GET
 	@Path("/{make}/{model}/{year}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getHeaders(
+	public Response getHeaders(
 			 @Context UriInfo info
 			,@Context HttpHeaders headers
 			,String body
@@ -33,6 +34,6 @@ public class CustomerResource {
 		String model = info.getPathParameters().getFirst("model");
 		String year = info.getPathParameters().getFirst("year");
 		output = output + "make=" + make + "¥n" +"model=" + model + "¥n" + "year=" + year; 
-		return output;
+		return Response.ok(output).build();
 	}
 }
