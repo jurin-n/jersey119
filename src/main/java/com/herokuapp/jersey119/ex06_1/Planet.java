@@ -10,11 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Planet {
 	@XmlAttribute
-	protected int id;
+	public int id;
 	@XmlElement
-	protected String name;
+	public String name;
 	@XmlElement
-	protected double radius;
+	public double radius;
+
+	public Planet(){}
+	
 	public int getId() {
 		return id;
 	}

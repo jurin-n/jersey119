@@ -24,6 +24,8 @@ public class PlanetTest {
 		try {
 			HttpResponse response = httpClient.execute(method);
 			assertThat(response.getStatusLine().getStatusCode(),is(HttpURLConnection.HTTP_OK));
+			System.out.println("** testPlanetGet **");
+			System.out.println("GET application/xml http://localhost:8080/ex06_1/planet");
 			System.out.println(EntityUtils.toString(response.getEntity(), "UTF-8"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -31,6 +33,23 @@ public class PlanetTest {
 		}
 	}
 
+	@Test
+	public void testPlanetGetJson() {
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		HttpGet method = new HttpGet("http://localhost:8080/ex06_1/planet");
+		method.setHeader("Content-Type", "application/json");
+		try {
+			HttpResponse response = httpClient.execute(method);
+			assertThat(response.getStatusLine().getStatusCode(),is(HttpURLConnection.HTTP_OK));
+			System.out.println("** testPlanetGetJson **");
+			System.out.println("GET application/json http://localhost:8080/ex06_1/planet");
+			System.out.println(EntityUtils.toString(response.getEntity(), "UTF-8"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
 	@Test
 	public void testPlanetPost() {
 		HttpClient httpClient = HttpClientBuilder.create().build();
@@ -48,6 +67,7 @@ public class PlanetTest {
 			HttpResponse response = httpClient.execute(method);
 			assertThat(response.getStatusLine().getStatusCode(),is(HttpURLConnection.HTTP_OK));
 			System.out.println("** testPlanetPost out **");
+			System.out.println("POST application/xml http://localhost:8080/ex06_1/planet");
 			System.out.println(EntityUtils.toString(response.getEntity(), "UTF-8"));
 		} catch (Exception e) {
 			e.printStackTrace();

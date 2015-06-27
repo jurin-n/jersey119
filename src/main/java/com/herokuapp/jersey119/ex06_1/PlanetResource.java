@@ -19,6 +19,17 @@ public class PlanetResource {
 		return p;
 	}
 	
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Planet getPlanetJson(){
+		Planet p = new Planet();
+		p.setId(1);
+		p.setName("Earth");
+		p.setRadius(1000.12345);
+		return p;
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Planet setPlanet(Planet p){
