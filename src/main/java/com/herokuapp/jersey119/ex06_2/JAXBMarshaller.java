@@ -7,8 +7,13 @@ import java.lang.reflect.Type;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Context;
+
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
+import javax.ws.rs.ext.Providers;
+import javax.ws.rs.ext.ContextResolver;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 
@@ -20,6 +25,9 @@ import javax.xml.bind.Marshaller;
 @Provider
 @Produces(MediaType.APPLICATION_XML)
 public class JAXBMarshaller implements MessageBodyWriter<Planet> {
+	@Context
+	protected Providers providers;
+	
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType,
 			Annotation annotations[], MediaType mediaType){
@@ -42,7 +50,15 @@ public class JAXBMarshaller implements MessageBodyWriter<Planet> {
 			MultivaluedMap<String, Object> httpHeaders, OutputStream outputStream)
 			throws IOException, WebApplicationException {
 		try{
-			JAXBContext ctx = JAXBContext.newInstance(type);
+			JAXBContext ctx = null;
+			ContextResolver<JAXBContext> resolver
+				= providers.getContextResolver(JAXBContext.class, mediaType);
+			if(resolver != null){
+				ctx = resolver.getContext(type);
+			}
+			if(ctx==null){
+				ctx = JAXBContext.newInstance(type);
+			}
 			Marshaller m = ctx.createMarshaller();
 			boolean pretty = false;
 			for(Annotation ann : annotations){
