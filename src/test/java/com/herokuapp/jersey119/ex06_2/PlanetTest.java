@@ -39,9 +39,9 @@ public class PlanetTest {
 		HttpPost method = new HttpPost("http://localhost:8080/ex06_2/planet");
 		method.setHeader("Content-Type", "application/xml");
 	    String newCustomer = 
-	    			"<planet id=\"10\">"
+	    			"<planet id=\"100\">"
 	              + "<name>earth</name>"
-	              + "<radius>10.12345</radius>"
+	              + "<radius>9999.12345</radius>"
 	              + "</planet>";
 		try {
 			StringEntity se = new StringEntity(newCustomer);
