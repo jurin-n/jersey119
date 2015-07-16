@@ -11,12 +11,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Person {
 	@XmlElement
+	private String id;
+	@XmlElement
 	private String name;
 	@XmlElement
 	private int age;
 	@XmlElement
 	private List<ListData> list;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}	
 	public String getName() {
 		return name;
 	}
